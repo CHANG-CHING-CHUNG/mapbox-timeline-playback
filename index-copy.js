@@ -4,7 +4,7 @@ var map = new mapboxgl.Map({
   container: "map",
   style: "mapbox://styles/mapbox/streets-v11",
   // center: [121.05951529779527,24.767772264803078],
-  center: [121.03664253899606, 24.809349938735988], // initial map center in [lon, lat]
+  center: [-74.0059, 40.7128], // initial map center in [lon, lat]
   zoom:10
 });
 const geolocate = new mapboxgl.GeolocateControl({
@@ -19,44 +19,22 @@ const geolocate = new mapboxgl.GeolocateControl({
 map.addControl(new mapboxgl.NavigationControl());
 map.addControl(geolocate);
 
-async function getData() {
-  let res = await fetch('./geoinvention_settlement_cell_section_1.geojson')
-  res = await res.json()
-  return res
-}
 
 
-
-map.on("load",  async () => {
+map.on("load", () => {
   // geolocate.trigger();
-  let data = await getData()
-  data.features.forEach(item => {
-    let date = parseISOLocal(item.properties.timestamps)
-    date = dateToISOLocal(date)
-    item.properties.timestamps = date
-  })
-  data.features.sort((a,b) => {
-    return new Date(a.properties.timestamps) - new Date(b.properties.timestamps)
-  })
-  let dateMin = new Date(data.features[0].properties.timestamps)
-  let dateMax = new Date(data.features[data.features.length - 1].properties.timestamps)
-  let rangeMax = dateMin - dateMax / 8.64e7
-  console.log(rangeMax)
-  document.querySelector('#slider').min = 0
-  document.querySelector('#slider').max = rangeMax
-  document.querySelector('#slider').addEventListener('input',range2date)
   map.addLayer({
     id: 'collisions',
     type: 'circle',
     source: {
       type:'geojson',
-      data :'./geoinvention_settlement_cell_section_1.geojson'
+      data :'./collisions1601.geojson'
     },
     paint: {
       'circle-radius': [
         'interpolate',
         ['linear'],
-        ['number',['get','value']],
+        ['number',['get','Casualty']],
         0,
         4,
         5,
@@ -65,30 +43,30 @@ map.on("load",  async () => {
       'circle-color': [
         'interpolate',
         ['linear'],
-        ['number',['get','value']],
-        28,
+        ['number',['get','Casualty']],
+        0,
         '#2DC4B2',
-        29,
+        1,
         '#3BB3C3',
-        30,
+        2,
         '#669EC4',
-        // 3,
-        // '#8B88B6',
-        // 4,
-        // '#A2719B',
-        // 5,
-        // '#AA5E79'
+        3,
+        '#8B88B6',
+        4,
+        '#A2719B',
+        5,
+        '#AA5E79'
       ],
       'circle-opacity': 0.8
     },
-    // filter: ['==', ['number', ['get', 'Hour']], 0]
+    filter: ['==', ['number', ['get', 'Hour']], 0]
   })
   let interval;
   const iconBtn = document.getElementById('icon-btn')
   let playBtn = document.querySelector('.start-playback')
 
-  // initEventListener('input','#slider',moveSlider)
-  // initEventListener('click','.start-playback',startPlayback)
+  initEventListener('input','#slider',moveSlider)
+  initEventListener('click','.start-playback',startPlayback)
 
   function initEventListener(event,className,callback){
     document.querySelector(className).addEventListener(event,callback)
@@ -192,37 +170,3 @@ map.on("load",  async () => {
     interval = ''
   }
 });
-
-// Parse date in YYYY-MM-DD format as local date
-function parseISOLocal(s) {
-  let [y, m, d] = s.split('-');
-  return new Date(y, m - 1, d);
-}
-
-// Format date as YYYY-MM-DD
-function dateToISOLocal(date) {
-  let z = n => ('0' + n).slice(-2);
-  return date.getFullYear() + '-' + z(date.getMonth() + 1) + '-' + z(date.getDate());
-}
-
-// Convert range slider value to date string
-function range2date(evt) {
-  let dateInput = document.querySelector('#d0');
-  let minDate = parseISOLocal(dateInput.defaultValue);
-  minDate.setDate(minDate.getDate() + Number(this.value));
-  dateInput.value = dateToISOLocal(minDate);
-}
-
-// Convert entered date to range
-function date2range(evt) {
-  let date = parseISOLocal(this.value);
-  let numDays = (date - new Date(this.min)) / 8.64e7;
-  document.querySelector('#r0').value = numDays;
-}
-
-function setRangeInputMinMax(dateInputMax,dateInputmin) {
-  let rangeMax = (new Date(dateInputMax) - new Date(dateInputmin)) / 8.64e7;
-  // Set the range min and max values
-  rangeInput.min = 0;
-  rangeInput.max = rangeMax;
-}

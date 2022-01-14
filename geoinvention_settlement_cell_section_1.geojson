@@ -1,0 +1,77 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "1-SF Temperature (ºC)",
+        "value": 10,
+        "timestamps": "2021-12-17"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.03664253899606, 24.809349938735988]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "1-SF Temperature (ºC)",
+        "value": 28.1,
+        "timestamps": "2021-12-17"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.23962402343749, 24.761796517185815]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "1-SF Temperature (ºC)",
+        "value": 28.0,
+        "timestamps": "2021-12-15"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.23962402343749, 24.761796517185815]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "1-SF Temperature (ºC)",
+        "value": 27.9,
+        "timestamps": "2021-12-11"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.23962402343749, 24.761796517185815]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "1-SF Temperature (ºC)",
+        "value": 27.9,
+        "timestamps": "2021-12-10"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.23962402343749, 24.761796517185815]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "label": "1-SF Temperature (ºC)",
+        "value": 27.9,
+        "timestamps": "2021-12-7"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [121.23962402343749, 24.761796517185815]
+      }
+    }
+  ]
+}
